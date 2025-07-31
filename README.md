@@ -1,1 +1,1 @@
-# federated-neural-topic-models
+# Federated Neural Topic Models
