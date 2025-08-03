@@ -29,12 +29,12 @@ def start_client(id_client):
     data = np.load(file, allow_pickle=True)
     
     corpus = data["documents"][id_client - 1]
-    print(corpus[0])
-
+    # print(corpus[0])
+    print(corpus)
+		
     # Generate training dataset in the format for AVITM
     train_dataset, input_size, id2token = prepare_data_avitm_federated(
-        corpus, 0.99, 0.01
-    )
+        corpus, 0.99, 0.01)
 
     # TRAINING PARAMETERS
     model_parameters = {

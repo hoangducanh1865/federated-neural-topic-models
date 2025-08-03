@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: lcalv
-******************************************************************************
-***                             CLASS CLIENT                               ***
-******************************************************************************
-"""
-##############################################################################
-#                                IMPORTS                                     #
-##############################################################################
 from __future__ import print_function
 from importlib.metadata import metadata
 import sys
@@ -44,7 +34,7 @@ class Client:
         self.model_parameters = model_parameters
         self.local_model = \
             AVITM(input_size=model_parameters["input_size"],
-                  n_components=model_parameters["n_components"],
+                 n_components=model_parameters["n_components"],
                   model_type=model_parameters["model_type"],
                   hidden_sizes=model_parameters["hidden_sizes"],
                   activation=model_parameters["activation"],
@@ -89,7 +79,8 @@ class Client:
 
             # Update minibatch'gradient with the update from the server
             dims = tuple(
-                [dim.size for dim in request_update.data.tensor_shape.dim])
+                [dim.size for dim in request_update.data.tensor_shape.dim]
+            )
             deserialized_bytes = np.frombuffer(
                 request_update.data.tensor_content, dtype=np.float32)
             deserialized_numpy = np.reshape(
@@ -110,7 +101,7 @@ class Client:
         return samples_processed, train_loss
 
 
-    def train_local_model(self, train_dataset, save_dir=None):
+    def train_local_model(self, train_dataset, save_dir):
         """
         Train a local AVITM model. To do so, we send the server the gradients corresponding with the parameter beta of the model, and the server returns an update of such a parameter, which is calculated by averaging the per minibatch beta parameters that he gets from the set of clients that are connected to the federation. After obtaining the beta updates from the server, the client keeps with the training of its own local model. This process is repeated for each minibatch of each epoch.
 
@@ -146,8 +137,10 @@ class Client:
 
         # num_workers=mp.cpu_count()
         train_loader = DataLoader(
-            self.local_model.train_data, batch_size=self.local_model.batch_size,
-            shuffle=True, num_workers=0)
+            self.local_model.train_data, 
+            batch_size=self.local_model.batch_size,
+            shuffle=True,
+            num_workers=0)
 
         # Initialize training variables
         train_loss = 0
@@ -162,23 +155,20 @@ class Client:
                 self.local_model.current_epoch = epoch
 
                 # Train epoch
-                s = datetime.datetime.now()
                 sp, train_loss = self.__train_epoch_local_model(train_loader)
                 samples_processed += sp
-                e = datetime.datetime.now()
 
                 # report
-                print("Epoch: [{}/{}]\tSamples: [{}/{}]\tTrain Loss: {}\tTime: {}".format(
+                print("Epoch: [{}/{}]\tSamples: [{}/{}]\tTrain Loss: {}".format(
                     epoch+1, self.local_model.num_epochs, samples_processed,
-                    len(self.local_model.train_data)*self.local_model.num_epochs, train_loss, e - s))
+                    len(self.local_model.train_data)*self.local_model.num_epochs, train_loss))
 
                 # save best
                 if train_loss < self.local_model.best_loss_train:
                     self.local_model.best_loss_train = train_loss
                     self.local_model.best_components = self.local_model.model.beta
 
-                    if save_dir is not None:
-                        self.local_model.save(save_dir)
+                    self.local_model.save(save_dir)
 
     def __send_per_minibatch_gradient(self, gradient, current_mb, current_epoch, num_epochs):
         id_message = "ID" + str(self.id) + "_" + str(round(time.time()))
@@ -210,5 +200,6 @@ class Client:
     def __listen_for_updates(self):
         update = self.stub.sendAggregatedTensor(federated_pb2.Empty())
         print("Client with ID ", self.id,
-              "recevied update for minibatch ", self.local_model.current_mb, " of the epoch ", self.local_model.current_epoch)
+              "recevied update for minibatch ", self.local_model.current_mb, 
+              " of the epoch ", self.local_model.current_epoch)
         return update

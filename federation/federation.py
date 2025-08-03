@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: lcalv
-******************************************************************************
-***                         CLASS FEDERATION                               ***
-******************************************************************************
-"""
-##############################################################################
-#                                IMPORTS                                     #
-##############################################################################
 import threading
 
 from federation.federation_client import FederationClient
@@ -22,7 +12,7 @@ class Federation:
         self.federation = {}
         self.federation_clients = []
 
-    def connect(self, client, id_client, gradient, current_iter, current_id_msg, max_iter):
+    def connect(self, client, id_client, gradient, current_epoch, id_request, max_epochs):
         """Class to register the connection  a client in the federation. As the client gets registered into the federation when it sends a GRPC message to the server, a counter is kept in order to account for the number  times a client has tried to communicate with the server. To do so, we save each client identification obtained from the context as the key  a dictionary, incrementing by one its corresponding value at each time the client connects with the server. Additionally, an object the class FederationClient is added to the list clients in the federation at each time a new client connects to it.
 
         Args:
@@ -39,9 +29,10 @@ class Federation:
                 self.federation[client] = 1
                 new_federation_client = FederationClient(id=id_client,
                                                          federation_key=client,
-                                                         tensor=gradient, current_iter=current_iter,
-                                                         current_id_msg=current_id_msg,
-                                                         num_max_iter=max_iter)
+                                                         tensor=gradient, 
+                                                         current_epoch=current_epoch,
+                                                         id_request=id_request,
+                                                         num_max_epochs=max_epochs)
                 self.federation_clients.append(new_federation_client)
             else:
                 self.federation[client] += 1
@@ -55,7 +46,10 @@ class Federation:
                 self.federation[client] += 1
 
     def disconnect(self, client):
-        """Class to unregister a client from the federation. As the registration  the user in the federation is described by a counter that relates to the number  times the user has sent a GRPC message to the server, the client is not completely unregister from the federation until this counter is set to 0. At this time, the client is also removed from the list  FederationClient objects that describe the set  clients that are connected in the federationl.
+        """Class to unregister a client from the federation. As the registration  the user in the federation is described by a counter that relates 
+           to the number  times the user has sent a GRPC message to the server, the client is not completely unregister from the federation until this 
+           counter is set to 0. At this time, the client is also removed from the list  FederationClient objects that describe the set  clients that 
+           are connected in the federationl.
 
         Args:
             * client (str): Client idenfication obtained from the context that provides information on the RPC

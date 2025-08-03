@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-@author: lcalv
-******************************************************************************
-***                      CLASS FEDERATED SERVER                            ***
-******************************************************************************
-"""
-##############################################################################
-#                                IMPORTS                                     #
-##############################################################################
 from concurrent import futures
 from waiting import wait
 import logging
@@ -36,7 +26,7 @@ class FederatedServer(federated_pb2_grpc.FederationServicer):
         self.id_server = "IDS" + "_" + str(round(time.time()))
 
     def record_client(self, context, id_client, gradient, 
-                      current_iter, current_id_msg, num_max_iter):
+                      current_epoch, id_request, num_max_epochs):
         """Method to record the communication between a server and one of the clients in the federation.
 
         Args:
@@ -48,7 +38,7 @@ class FederatedServer(federated_pb2_grpc.FederationServicer):
             self.federation.disconnect(context.peer())
         context.add_callback(unregister_client)
         self.federation.connect(context.peer(), id_client,
-                                gradient, current_iter, current_id_msg, num_max_iter)
+                                gradient, current_epoch, id_request, num_max_epochs)
 
     def record_client_waiting(self, context):
         def unregister_client():
@@ -87,9 +77,6 @@ class FederatedServer(federated_pb2_grpc.FederationServicer):
         if len(self.federation.federation_clients) < self.min_num_clients:
             return False
         # TODO: Check with condition can be added here in case not all clients sent the updates
-        # if len(self.federation.federation) != len(self.federation.federation_clients):
-        #    print("Not all the clients have sent their updates yet.")
-        #    return False
         return True
 
     def sendAggregatedTensor(self, request, context):
@@ -97,7 +84,8 @@ class FederatedServer(federated_pb2_grpc.FederationServicer):
         self.record_client_waiting(context)
 
         # Wait until all the clients in the federation have sent its current iteration gradient
-        wait(lambda: self.can_send_update(), timeout_seconds=120,
+        wait(lambda: self.can_send_update(), 
+      		 timeout_seconds=360,
              waiting_for="Update can be sent")
 
         # Calculate average
