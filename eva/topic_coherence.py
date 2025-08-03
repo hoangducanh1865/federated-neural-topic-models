@@ -2,7 +2,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models import CoherenceModel
 from typing import List
-from eva.utils import split_text_word
+from utils.utils import split_text_word
 
 def compute_coherence(
     reference_corpus: List[str],

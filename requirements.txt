@@ -12,6 +12,7 @@ pdbpp ~= 0.10.3
 requests ~= 2.27.1
 scikit-learn ~= 1.0.2
 tqdm ~= 4.62.3
+gensim
 
 # If bug:
 # pip uninstall grpcio
