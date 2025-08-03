@@ -4,7 +4,7 @@ import numpy as np
 
 from eva.topic_coherence import compute_coherence
 from eva.topic_diversity import compute_diversity
-from eva.utils import split_text_word
+from utils.utils import split_text_word
 
 # ==== Đường dẫn tới dữ liệu và model ====
 model_path = "data/output_models/AVITM_nc_10_tpm_0.0_tpv_0.9_hs_prodLDA_ac_(100, 100)_do_softplus_lr_0.2_mo_0.002_rp_0.99/epoch_None.pth"

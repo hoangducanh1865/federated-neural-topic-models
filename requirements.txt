@@ -13,7 +13,13 @@ requests ~= 2.27.1
 scikit-learn ~= 1.0.2
 tqdm ~= 4.62.3
 gensim
+matplotlib
+
 
 # If bug:
+
 # pip uninstall grpcio
 # pip install --no-binary=grpcio grpcio
+
+# pip uninstall numpy gensim
+# pip install ...
