@@ -11,8 +11,7 @@ source venv/bin/activate
 ```
 Generate files:
 ```
-python3 -m grpc_tools.protoc -I ../protos --python_out=. \
-        --grpc_python_out=. ../protos/federated.proto
+python3 -m grpc_tools.protoc -I protos --python_out=federation --grpc_python_out=federation protos/federated.proto
 ```
 
 The generated file "federated_pb2.py" contains the type definitions, while "federated_pb2_grpc.py" describes the framework for a client and a server.
