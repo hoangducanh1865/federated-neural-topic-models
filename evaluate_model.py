@@ -13,8 +13,8 @@ save_result_path = "evaluation_results.txt"
 
 # ==== Load dữ liệu ====
 data = np.load(data_path, allow_pickle=True)
-corpus = data["corpus"].tolist()
-vocab = data["vocab"].tolist()
+corpus = data["documents"].tolist()
+vocab = sorted(set(word for doc in corpus for word in doc.split()))
 
 # ==== Load mô hình đã huấn luyện ====
 checkpoint = torch.load(model_path, map_location=torch.device("cpu"))
