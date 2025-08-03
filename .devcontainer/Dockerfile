@@ -1,0 +1,3 @@
+ARG VARIANT = 20.04
+FROM ubuntu:${VARIANT}
+
