@@ -8,7 +8,7 @@ from utils.utils import split_text_word
 
 # ==== Đường dẫn tới dữ liệu và model ====
 model_path = "data/output_models/AVITM_nc_10_tpm_0.0_tpv_0.9_hs_prodLDA_ac_(100, 100)_do_softplus_lr_0.2_mo_0.002_rp_0.99/epoch_None.pth"
-data_path = "data/training_data/train_data.npz"
+data_path = "data/training_data/synthetic.npz"
 save_result_path = "evaluation_results.txt"
 
 # ==== Load dữ liệu ====
