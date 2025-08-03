@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from utils.bow_dataset import BOWDataset
 
-
 def split_text_word(texts: list[str]) -> list[list[str]]:
     return [text.split() for text in texts]
 

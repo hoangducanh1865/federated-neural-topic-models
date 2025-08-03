@@ -115,7 +115,7 @@ class AVITM(object):
         # training atributes
         self.model_dir = None
         self.train_data = None
-        self.nn_epoch = None
+        self.nn_epoch = 0
 
         # learned topics
         self.best_components = None
@@ -281,7 +281,7 @@ class AVITM(object):
                 self.best_components = self.model.beta
 
                 if save_dir is not None:
-                    self.save(save_dir)
+                    self.save(models_dir=save_dir)
 
     def predict(self, dataset, k=10):
         """Predict input."""
@@ -370,24 +370,22 @@ class AVITM(object):
                    self.reduce_on_plateau)
         return model_dir
 
-    def save(self, models_dir=None):
+    def save(self, models_dir):
         """
         Save model.
 
         Args
             models_dir: path to directory for saving NN models.
         """
-        if (self.model is not None) and (models_dir is not None):
+        model_dir = "AVITM"
+        if not os.path.isdir(os.path.join(models_dir, model_dir)):
+            os.makedirs(os.path.join(models_dir, model_dir))
 
-            model_dir = self._format_file()
-            if not os.path.isdir(os.path.join(models_dir, model_dir)):
-                os.makedirs(os.path.join(models_dir, model_dir))
-
-            filename = "epoch_{}".format(self.nn_epoch) + '.pth'
-            fileloc = os.path.join(models_dir, model_dir, filename)
-            with open(fileloc, 'wb') as file:
-                torch.save({'state_dict': self.model.state_dict(),
-                            'dcue_dict': self.__dict__}, file)
+        filename = "epoch_{}".format(self.nn_epoch) + '.pth'
+        fileloc = os.path.join(models_dir, model_dir, filename)
+        with open(fileloc, 'wb') as file:
+            torch.save({'state_dict': self.model.state_dict(),
+                        'dcue_dict': self.__dict__}, file)
 
     def load(self, model_dir, epoch):
         """
