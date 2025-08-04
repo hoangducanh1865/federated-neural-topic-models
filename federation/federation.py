@@ -18,10 +18,10 @@ class Federation:
         Args:
             * client (str): Client idenfication obtained from the context that provides information on the RPC
             * id_client (int): Id  the client.
-            * gradient (Pytorch.Tensor): Gradient that the client is sending to the server at "current_iter" on "current_id_msg"
-            * current_iter (int): Iteration that corresponds with the gradient that is being sent by the client.
-            * current_id_msg (int): Id  the message at which the gradient is being sent.
-            * max_iter (int): Number of epochs with which the model is being trained.
+            * gradient (Pytorch.Tensor): Gradient that the client is sending to the server at "current_epoch" on "id_request"
+            * current_epoch (int): Iteration that corresponds with the gradient that is being sent by the client.
+            * id_request (int): Id  the message at which the gradient is being sent.
+            * max_epochs (int): Number of epochs with which the model is being trained.
         """
         print("Client {} connecting".format(client))
         with self.federation_lock:
@@ -32,7 +32,7 @@ class Federation:
                                                          tensor=gradient, 
                                                          current_epoch=current_epoch,
                                                          id_request=id_request,
-                                                         num_max_epochs=max_epochs)
+                                                         max_epochs=max_epochs)
                 self.federation_clients.append(new_federation_client)
             else:
                 self.federation[client] += 1
@@ -67,7 +67,7 @@ class Federation:
                 del self.federation[client]
                 client_to_remove = FederationClient.get_pos_by_key(
                     client, self.federation_clients)
-                if self.federation_clients[client_to_remove].current_iter == self.federation_clients[client_to_remove].current_id_msg:
+                if self.federation_clients[client_to_remove].current_epoch == self.federation_clients[client_to_remove].id_request:
                     del self.federation_clients[client_to_remove]
 
     def getClients(self):

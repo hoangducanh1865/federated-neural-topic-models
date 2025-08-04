@@ -3,13 +3,13 @@ class FederationClient:
        a CTM or ProdLDA model.
     """
 
-    def __init__(self, id, federation_key, tensor, current_epoch, id_request, num_max_epochs):
+    def __init__(self, id, federation_key, tensor, current_epoch, id_request, max_epochs):
         self.id = id
         self.federation_key = federation_key
         self.tensor = tensor
         self.current_epoch = current_epoch
         self.id_request = id_request # TODO: revise this field; not really necessary
-        self.num_max_epochs = num_max_epochs
+        self.max_epochs = max_epochs
 
     def get_pos_by_key(key, federation_clients):
         """It searchs a client with the specified key over the given list of FederationClient objects

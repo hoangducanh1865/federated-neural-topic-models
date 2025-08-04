@@ -16,9 +16,7 @@ from avitm.avitm import AVITM
 from federation import federated_pb2, federated_pb2_grpc
 
 
-##############################################################################
 # DEBUG SETTINGS
-##############################################################################
 FORMAT = '[%(asctime)-15s] [%(filename)s] [%(levelname)s] %(message)s'
 logging.basicConfig(format=FORMAT, level='INFO')
 logger = logging.getLogger('client')

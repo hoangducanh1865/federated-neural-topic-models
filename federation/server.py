@@ -113,7 +113,7 @@ class FederatedServer(federated_pb2_grpc.FederationServicer):
         update_name = "Update for client with ID " + str(self.federation.federation_clients[client_to_repond].id) + \
                       " for the iteration " + \
             str(
-                self.federation.federation_clients[client_to_repond].current_iter)
+                self.federation.federation_clients[client_to_repond].current_epoch)
         data = federated_pb2.Update(tensor_name=update_name,
                                     tensor_shape=size, tensor_content=content_bytes)
         # Send update

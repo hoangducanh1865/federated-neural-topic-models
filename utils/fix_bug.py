@@ -14,7 +14,7 @@ python3 main.py --min_clients_federation 5
 python3 main.py --id 1 --source data/training_data/synthetic.npz
 python3 main.py --id 2 --source data/training_data/synthetic.npz
 python3 main.py --id 3 --source data/training_data/synthetic.npz
-python3 main.py --id 4 --source data/training_data/synthetic.npz    
+python3 main.py --id 4 --source data/training_data/synthetic.npz
 python3 main.py --id 5 --source data/training_data/synthetic.npz
 '''
 
