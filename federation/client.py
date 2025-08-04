@@ -34,7 +34,7 @@ class Client:
         self.model_parameters = model_parameters
         self.local_model = \
             AVITM(input_size=model_parameters["input_size"],
-                 n_components=model_parameters["n_components"],
+                  n_components=model_parameters["n_components"],
                   model_type=model_parameters["model_type"],
                   hidden_sizes=model_parameters["hidden_sizes"],
                   activation=model_parameters["activation"],
@@ -68,7 +68,7 @@ class Client:
             self.__send_per_minibatch_gradient(
                 self.local_model.model.prior_mean.grad.detach(),
                 self.local_model.current_mb,
-                self.local_model.current_epoch,
+                self.local_model.nn_epoch,
                 self.local_model.num_epochs)
 
             print("Client ", self.id, "sent gradient ", self.local_model.current_mb,

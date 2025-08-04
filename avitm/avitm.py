@@ -1,18 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-@author: estebandito22
-https://github.com/estebandito22/PyTorchAVITM/blob/master/pytorchavitm/avitm/avitm.py
-
-@modifiedBy: lcalvo
-******************************************************************************
-***                               AVITM                                    ***
-******************************************************************************
-"""
-##############################################################################
-#                                IMPORTS                                     #
-##############################################################################
 import os
-from collections import defaultdict
 import multiprocessing as mp
 import requests
 import numpy as np
@@ -22,9 +8,9 @@ from torch import nn
 from torch import optim
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from tqdm import tqdm
 from torch.nn import functional as F
-
+from tqdm import tqdm
+from collections import defaultdict
 from avitm.decoder_network import DecoderNetwork
 
 
@@ -263,7 +249,7 @@ class AVITM(object):
 
         # train loop
         for epoch in range(self.num_epochs):
-            self.nn_epoch = epoch
+            self.current_epoch = epoch
             # train epoch
             s = datetime.datetime.now()
             sp, train_loss = self._train_epoch(train_loader)
@@ -280,8 +266,7 @@ class AVITM(object):
                 self.best_loss_train = train_loss
                 self.best_components = self.model.beta
 
-                if save_dir is not None:
-                    self.save(models_dir=save_dir)
+                self.save(models_dir=save_dir)
 
     def predict(self, dataset, k=10):
         """Predict input."""
@@ -381,7 +366,7 @@ class AVITM(object):
         if not os.path.isdir(os.path.join(models_dir, model_dir)):
             os.makedirs(os.path.join(models_dir, model_dir))
 
-        filename = "epoch_{}".format(self.nn_epoch) + '.pth'
+        filename = "epoch_{}".format(self.current_epoch) + '.pth'
         fileloc = os.path.join(models_dir, model_dir, filename)
         with open(fileloc, 'wb') as file:
             torch.save({'state_dict': self.model.state_dict(),
