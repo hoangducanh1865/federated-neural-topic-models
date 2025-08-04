@@ -1,0 +1,2 @@
+1 alpha đầu tiên trong synthetic.npz:
+alpha: 0.5

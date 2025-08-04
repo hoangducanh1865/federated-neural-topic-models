@@ -1,0 +1,2 @@
+1 beta đầu tiên trong synthetic.npz:
+beta: 0.01

@@ -1,0 +1,2 @@
+1 frozen_topics đầu tiên trong synthetic.npz:
+frozen_topics: 3

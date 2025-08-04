@@ -1,0 +1,2 @@
+1 nwords đầu tiên trong synthetic.npz:
+nwords: 0.01

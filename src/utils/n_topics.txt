@@ -1,0 +1,2 @@
+1 n_topics đầu tiên trong synthetic.npz:
+n_topics: 10

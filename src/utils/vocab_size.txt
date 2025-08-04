@@ -1,0 +1,2 @@
+1 vocab_size đầu tiên trong synthetic.npz:
+vocab_size: 10000

@@ -1,0 +1,2 @@
+1 n_docs đầu tiên trong synthetic.npz:
+n_docs: 1000
