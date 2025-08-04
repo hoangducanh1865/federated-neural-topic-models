@@ -23,8 +23,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import torch
-from avitm.avitm import AVITM  # thay bằng tên class model của bạn
-from utils.utils import prepare_data_avitm_federated
+from src.avitm.avitm import AVITM  # thay bằng tên class model của bạn
+from src.utils.utils import prepare_data_avitm_federated
 import numpy as np
 
 file = "data/training_data/synthetic.npz"

@@ -12,8 +12,8 @@ import multiprocessing as mp
 import torch
 from torch.utils.data import DataLoader
 
-from avitm.avitm import AVITM
-from federation import federated_pb2, federated_pb2_grpc
+from src.avitm.avitm import AVITM
+from src.federation import federated_pb2, federated_pb2_grpc
 
 
 # DEBUG SETTINGS

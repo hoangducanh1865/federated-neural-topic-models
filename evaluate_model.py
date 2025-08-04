@@ -1,10 +1,10 @@
 import torch
 import numpy as np
-from avitm.avitm import AVITM
+from src.avitm.avitm import AVITM
 from itertools import chain
 import pickle
-from eva.topic_coherence import compute_coherence
-from eva.topic_diversity import compute_diversity
+from src.eva.topic_coherence import compute_coherence
+from src.eva.topic_diversity import compute_diversity
 
 # ==== Load dữ liệu ====
 data = np.load("data/training_data/synthetic.npz", allow_pickle=True)

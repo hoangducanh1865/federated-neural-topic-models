@@ -1,6 +1,6 @@
 import threading
 
-from federation.federation_client import FederationClient
+from src.federation.federation_client import FederationClient
 
 
 class Federation:

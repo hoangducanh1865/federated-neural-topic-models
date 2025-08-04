@@ -5,7 +5,7 @@ import grpc
 import time
 import numpy as np
 
-from federation import federated_pb2, federated_pb2_grpc, federation, federation_client
+from src.federation import federated_pb2, federated_pb2_grpc, federation, federation_client
 
 
 FORMAT = '[%(asctime)-15s] [%(filename)s] [%(levelname)s] %(message)s'

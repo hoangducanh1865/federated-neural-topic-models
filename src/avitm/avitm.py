@@ -11,7 +11,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.nn import functional as F
 from tqdm import tqdm
 from collections import defaultdict
-from avitm.decoder_network import DecoderNetwork
+from src.avitm.decoder_network import DecoderNetwork
 
 
 class AVITM(object):
