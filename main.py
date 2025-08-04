@@ -25,7 +25,7 @@ def start_client(id_client):
     period = 3
 
     # Training data
-    file = "data/training_data/synthetic.npz"
+    file = "src/data/training_data/synthetic.npz"
     data = np.load(file, allow_pickle=True)
     
     corpus = data["documents"][id_client - 1]
@@ -54,7 +54,7 @@ def start_client(id_client):
     }
 
     # START CLIENT
-    save_dir = "data/output_models"
+    save_dir = "src/data/output_models"
     client = Client(id_client, period, model_parameters)
     client.train_local_model(train_dataset, save_dir)
 

@@ -9,13 +9,11 @@ python utils/fix_bug.py
 
 
 '''
-python3 main.py --min_clients_federation 5
+python3 main.py --min_clients_federation 2
 
-python3 main.py --id 1 --source data/training_data/synthetic.npz
-python3 main.py --id 2 --source data/training_data/synthetic.npz
-python3 main.py --id 3 --source data/training_data/synthetic.npz
-python3 main.py --id 4 --source data/training_data/synthetic.npz
-python3 main.py --id 5 --source data/training_data/synthetic.npz
+python3 main.py --id 1 --source src.data/training_data/synthetic.npz
+python3 main.py --id 2 --source src.ata/training_data/synthetic.npz
+
 '''
 
 
@@ -27,7 +25,7 @@ from src.avitm.avitm import AVITM  # thay bằng tên class model của bạn
 from src.utils.utils import prepare_data_avitm_federated
 import numpy as np
 
-file = "data/training_data/synthetic.npz"
+file = "src/data/training_data/synthetic.npz"
 data = np.load(file, allow_pickle=True)
 corpus = data['documents'][5-1]
 print("Số lượng phần tử trong data['documents']:", len(data['documents']))

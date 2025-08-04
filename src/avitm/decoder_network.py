@@ -14,7 +14,7 @@ https://github.com/estebandito22/PyTorchAVITM/blob/master/pytorchavitm/avitm/dec
 import torch
 from torch import nn
 from torch.nn import functional as F
-from avitm.inference_network import InferenceNetwork
+from src.avitm.inference_network import InferenceNetwork
 
 
 class DecoderNetwork(nn.Module):
