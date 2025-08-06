@@ -6,7 +6,7 @@ from src.ctm.network.inference_network import CombinedInferenceNetwork, Contextu
 
 class DecoderNetwork(nn.Module):
     
-    def __init__(self):
+    def __init__(self, ):
         super(DecoderNetwork, self).__init__()
         
         self.input_size = input_size
