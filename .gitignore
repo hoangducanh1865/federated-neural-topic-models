@@ -208,3 +208,11 @@ __marimo__/
 
 .DS_Store
 .vscode/
+
+
+.pyre/
+
+# Training data
+training_data/
+.txt
+.pickle
