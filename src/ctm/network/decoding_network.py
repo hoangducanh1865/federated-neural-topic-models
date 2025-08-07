@@ -6,7 +6,9 @@ from src.ctm.network.inference_network import CombinedInferenceNetwork, Contextu
 
 class DecoderNetwork(nn.Module):
     
-    def __init__(self, ):
+    def __init__(self, input_size, bert_size, infnet, n_components=10, model_type='prodLDA',
+                 hidden_sizes=(100,100), activation='softplus', dropout=0.2,
+                 learn_priors=True, label_size=0):
         super(DecoderNetwork, self).__init__()
         
         self.input_size = input_size
@@ -57,6 +59,17 @@ class DecoderNetwork(nn.Module):
         # theta
         self.drop_theta = nn.Dropout(p=self.dropout)
         
+    @staticmethod
+    def reparameterize(mu, logvar):
+        std = 
+        eps = 
+        return eps.mul(std).add_(mu)
+    
+    def forward():
+        pass
+        
+    def get_theta():
+        pass
         
         
         
