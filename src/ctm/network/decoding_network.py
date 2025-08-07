@@ -12,13 +12,13 @@ class DecoderNetwork(nn.Module):
         super(DecoderNetwork, self).__init__()
         
         self.input_size = input_size
-        self.n_components = components # num_topic
+        self.n_components = n_components # num_topic
         self.model_type = model_type
         self.hidden_sizes = hidden_sizes
         self.activation = activation 
         self.dropout = dropout
         self.learn_priors = learn_priors 
-        self.topic_word_matrix = topic_word_matrix
+        self.topic_word_matrix = None
         
         if infnet == "zeroshot":
             self.infnet = ContextualInferenceNetwork(
@@ -61,15 +61,43 @@ class DecoderNetwork(nn.Module):
         
     @staticmethod
     def reparameterize(mu, logvar):
-        std = 
-        eps = 
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
         return eps.mul(std).add_(mu)
     
-    def forward():
-        pass
+    def forward(self, x, x_bert, labels=None):
+        # posterior_mu and posterior_sigma
+        posterior_mu, posterior_log_sigma = 
+        posterior_sigma = 
+        
+        # theta
+        theta = 
+        theta = 
+        
+        # beta
+        if self.model_type == "prodLDA":
+            word_dist = 
+            self.topic_word_matrix = 
+        elif self.model_type == "LDA":
+            beta = 
+            self.topic_word_matrix = 
+            word_dist = 
+        elif:
+            pass
+            
+        estimated_labels = 
+        if labels:
+            estimated_labels = 
+            
+        return self.prior_mean, self.prior_variance, \
+               posterior_mu, posterior_sigma, posterior_log_sigma, \
+               word_dist, estimated_labels 
         
     def get_theta():
-        pass
+        with torch.no_grad():
+            posterior_mu, posterior_log_sigma = 
+            theta = 
+            return theta
         
         
         
