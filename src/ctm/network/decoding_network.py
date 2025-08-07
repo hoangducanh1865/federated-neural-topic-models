@@ -21,10 +21,10 @@ class DecoderNetwork(nn.Module):
         self.topic_word_matrix = None
         
         if infnet == "zeroshot":
-            self.infnet = ContextualInferenceNetwork(
+            self.inf_net = ContextualInferenceNetwork(
                 input_size, bert_size, n_components, hidden_sizes, activation, label_size=label_size)
         elif infnet == "combined": # QUESTION: Why is bow_size not passed here?
-            self.infnet = CombinedInferenceNetwork(
+            self.inf_net = CombinedInferenceNetwork(
                 input_size, bert_size, n_components, hidden_sizes, activation, label_size=label_size)
         else:
             raise Exception("Missing infnet parameter, options are zeroshot and combined")
@@ -56,7 +56,7 @@ class DecoderNetwork(nn.Module):
         nn.init.xavier_uniform_(self.beta)
         self.beta_batchnorm = nn.BatchNorm1d(input_size, affine=False)
         
-        # theta
+        # Drop out on theta
         self.drop_theta = nn.Dropout(p=self.dropout)
         
     @staticmethod
@@ -67,36 +67,37 @@ class DecoderNetwork(nn.Module):
     
     def forward(self, x, x_bert, labels=None):
         # posterior_mu and posterior_sigma
-        posterior_mu, posterior_log_sigma = 
-        posterior_sigma = 
+        posterior_mu, posterior_log_sigma = self.inf_net(x, x_bert, labels)
+        posterior_sigma = torch.exp(posterior_log_sigma)
         
         # theta
-        theta = 
-        theta = 
+        theta = F.softmax(self.reparameterize(posterior_mu, 2 * posterior_log_sigma), dim=1) # QUESTION: In the original code, they use posterior_log_sigma without multiple by 2?
+        theta = self.drop_theta(theta)
         
         # beta
         if self.model_type == "prodLDA":
-            word_dist = 
-            self.topic_word_matrix = 
+            self.topic_word_matrix = self.beta
+            word_dist = F.softmax(self.beta_batchnorm(torch.matmul(theta, self.beta)), dim=1)
         elif self.model_type == "LDA":
-            beta = 
-            self.topic_word_matrix = 
-            word_dist = 
-        elif:
-            pass
+            beta = F.softmax(self.beta_batchnorm(self.beta), dim=1)
+            self.topic_word_matrix = beta
+            word_dist = torch.matmul(theta, beta)
+        else:
+            raise NotImplementedError("Model Type Not Implemented")
+        # QUESTION: Discuss more on the difference between prodLDA and LDA above
             
-        estimated_labels = 
+        estimated_labels = None
         if labels:
-            estimated_labels = 
+            estimated_labels = self.label_classification(theta) # docs-topics -> label 
             
         return self.prior_mean, self.prior_variance, \
                posterior_mu, posterior_sigma, posterior_log_sigma, \
                word_dist, estimated_labels 
         
-    def get_theta():
+    def get_theta(self, x, x_bert, labels=None):
         with torch.no_grad():
-            posterior_mu, posterior_log_sigma = 
-            theta = 
+            posterior_mu, posterior_log_sigma = self.inf_net(x, x_bert, labels)
+            theta = F.softmax(self.reparameterize(posterior_mu, 2 * posterior_log_sigma), dim=1) # QUESTION: In the original code, they use posterior_log_sigma without multiple by 2?
             return theta
         
         
