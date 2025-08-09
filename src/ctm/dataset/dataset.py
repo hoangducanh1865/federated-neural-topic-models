@@ -8,7 +8,7 @@ class CTMDataset(Dataset):
     This class loads BoW and contextualized embeddings
     '''
     def __init__(self, X_contextual, X_bow, idx2token, labels=None):
-        if X_bow.shape[0] != len(X_contexual):
+        if X_bow.shape[0] != len(X_contextual):
             raise Exception("Wait! BoW and Contextual Embeddings have different sizes! "
                             "You might want to check if the BoW preparation method has removed some documents. ")
         

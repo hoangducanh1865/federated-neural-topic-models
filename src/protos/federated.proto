@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package federated;
+
+/* Empty protocol buffer used in the client to wait for the server's update
+ */
+message Empty {}
+
+/* Protocol buffer that defines the dimensions of a tensor such as {"input", 30}, {"output", 40} for a 30 x 40 2D tensor.
+   The dimensions follow an "in-memory" layout, meaning that the first entry is the outermost dimensions used to 
+   layout the values, while the last entry is the innermost dimension.
+   Data structre based on the code available at:
+   https://github.com/tensorflow/tensorflow/blob/9590c4c32dd4346ea5c35673336f5912c6072bf2/tensorflow/core/framework/tensor_shape.proto
+ */
+message TensorShape {
+  // One dimension of the tensor.
+  message Dim {
+    int64 size = 1;           // Size of the tensor in that dimension (must be >=1, -1 = "unknown" dimension)
+    optional string name = 2; // Name of the tensor dimension.
+  };
+  repeated Dim dim = 2;
+};
+
+ /* Protocol buffer representing a federated update. */
+ message Update {
+  string tensor_name = 1;       // Name of the gradient that is being transmitted, e.g. "doc-topics distribution"
+  string dtype = 2;             // Type of the tensor data (neccessary for correct deserialization)
+  TensorShape tensor_shape = 3; // Shape of the gradient tensor
+  bytes tensor_content = 4;     // Actual content of the tensor
+};
+
+message MessageAdditionalData {
+  uint32 current_mb = 1;      // Minibatch to which the current message data corresponds
+  uint32 current_epoch = 2;   // Epoch to which the current message data corresponds
+  uint32 num_max_epochs = 3;  // Maximum number of epoch that the federation has
+  uint32 id_machine = 4;
+}
+
+enum MessageType {
+  CLIENT_TENSOR_SEND = 0;
+  CLIENT_CONFIRM_RECEIVED = 1;
+  SERVER_AGGREGATED_TENSOR_SEND = 2;
+  SERVER_CONFIRM_RECEIVED = 3; 
+}
+
+message MessageHeader {
+  optional string id_request = 1;
+  optional string id_response = 2;
+  optional string id_to_request = 3;
+  MessageType message_type = 4;
+}
+
+message ClientTensorRequest {
+  MessageHeader header = 1;
+  MessageAdditionalData metadata = 2;
+  Update data = 3;
+}
+
+message ServerAggregatedTensorRequest {
+  MessageHeader header = 1;
+  MessageAdditionalData metadata = 2;
+  Update data = 3;
+}
+
+message ClientReceivedResponse {
+  MessageHeader header = 1;
+  MessageAdditionalData metadata = 2;
+}
+
+message ServerReceivedResponse {
+  MessageHeader header = 1;
+  MessageAdditionalData metadata = 2;
+}
+
+service Federation {
+  rpc sendLocalTensor(ClientTensorRequest) returns (ServerReceivedResponse) {}
+  rpc sendAggregatedTensor(Empty) returns (ServerAggregatedTensorRequest) {}
+}

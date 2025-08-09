@@ -1,0 +1,12 @@
+
+pip uninstall grpcio
+pip install --no-binary=grpcio grpcio
+
+pip uninstall numpy gensim
+
+
+pip install --upgrade protobuf==3.20.3 grpcio grpcio-tools
+
+
+pip install 'fancycompleter<0.9'
+pip install --upgrade pdbpp

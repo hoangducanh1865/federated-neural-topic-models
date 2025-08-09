@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from src.utils.bow_dataset import BOWDataset
 
+
 def split_text_word(texts: list[str]) -> list[list[str]]:
     return [text.split() for text in texts]
 
@@ -41,3 +42,11 @@ def plot_training_curves(losses, coherence, diversity, prefix="training_plot"):
     plt.tight_layout()
     plt.savefig(f"{prefix}_diversity.png")
     plt.close()
+    
+
+def get_type_from_string(str_dtype):
+    if str_dtype == "<class 'numpy.float32'>":
+        dtype = np.float32
+    elif str_dtype == "<class 'numpy.float64'>":
+        dtype = np.float64
+    return dtype

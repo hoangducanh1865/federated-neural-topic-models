@@ -2,11 +2,6 @@
 python src/utils/fix_bug.py
 ''' 
 
-# import numpy as np
-
-# data = np.load("data/training_data/synthetic.npz", allow_pickle=True)
-# print("Available keys:", list(data.keys()))
-
 
 '''
 python3 main.py --min_clients_federation 2
@@ -208,3 +203,14 @@ print("-" * 40)
 #             print(f"\n5 phần tử đầu trong '{key}':", val[:5])
 #         else:
 #             print(f"\nGiá trị của '{key}':", str(val)[:200])
+
+
+
+
+
+'''
+pip install --upgrade protobuf==3.20.3 grpcio grpcio-tools
+
+pip install 'fancycompleter<0.9'
+pip install --upgrade pdbpp
+'''

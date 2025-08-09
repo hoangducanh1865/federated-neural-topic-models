@@ -4,7 +4,7 @@ import argparse
 import numpy as np
 
 from src.federation import federated_pb2_grpc
-from src.federation.client import Client
+from src.federation.client import AVITMClient
 from src.federation.server import FederatedServer
 from src.utils.utils_preprocessing import prepare_data_avitm_federated
 
@@ -55,7 +55,7 @@ def start_client(id_client):
 
     # START CLIENT
     save_dir = "src/data/output_models"
-    client = Client(id_client, period, model_parameters)
+    client = AVITMClient(id_client, period, model_parameters)
     client.train_local_model(train_dataset, save_dir)
 
 
